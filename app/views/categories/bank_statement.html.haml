@@ -1,0 +1,24 @@
+.inner.sectionCntType
+  %label Check Your Balance
+  %label Current Balance:
+  %span  
+    = Category.calculate_current_balance(current_user,"current_balance")
+  #tablewrapper
+    %section
+      %table#table.tinytable{:width => "800"}
+        %thead
+          %tr
+            %td
+              %label Income
+            %td
+              = Category.calculate_current_balance(current_user,"Income")
+          %tr
+            %td
+              %label Expenses
+            %td
+              = Category.calculate_current_balance(current_user,"Expenses")
+          %tr
+            %td
+              %label Balance
+            %td
+              = Category.calculate_current_balance(current_user,"current_balance")

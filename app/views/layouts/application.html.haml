@@ -1,0 +1,39 @@
+!!!
+%html
+  %head
+    %title savecoins.com
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    %script{:src => "/my/path/js/jquery-1.10.2.min.js", :type => "text/javascript"}
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js", :type => "text/javascript"}
+    %script{:src => "/my/path/js/jquery.ui.datepicker.min.js", :type => "text/javascript"}
+    = csrf_meta_tags
+  %body
+    .navbar.navbar-default.navbar-fixed-top
+      .container
+        .navbar-header
+          %a.navbar-brand{:href => "../"} Save Your Coins
+          %button.navbar-toggle{"data-target" => "#navbar-main", "data-toggle" => "collapse", :type => "button"}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+        #navbar-main.navbar-collapse.collapse
+          %ul.nav.navbar-nav
+          %ul.nav.navbar-nav.navbar-right
+            - if user_signed_in?
+              %li
+                = current_user.email
+                = link_to "Sign out", destroy_user_session_path, :method => :delete
+            - else
+              %li
+                = link_to "Sign up", new_user_registration_path
+              %li or
+              %li= link_to "Sign in", new_user_session_path
+    %br/
+    %br/
+    %br/
+    %br/
+    .container
+      - if user_signed_in?
+        = render :partial => "layouts/left_menu"
+      = yield

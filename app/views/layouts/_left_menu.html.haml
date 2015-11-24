@@ -1,0 +1,15 @@
+.row.leftWidthMenu
+  .col-sm-2
+    %nav.nav-sidebar
+      %ul.nav
+        %li.active
+          %a{:href => "/"} Home
+        %li
+          %a{:href => new_category_path} Income and Expenses
+        %li
+          %a{:href => categories_path(:q => "income" )} Income Summery
+        %li
+          %a{:href => categories_path(:q => "expenses")} Expenses Summery
+        %li
+          %a{:href => bank_statement_path} Balance
+        %li.nav-divider

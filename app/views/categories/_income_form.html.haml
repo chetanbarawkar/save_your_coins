@@ -1,0 +1,50 @@
+.sectionCntType
+  .incomeLabel
+    Income/expenses
+  = form_for(@category) do  |f|
+    = f.hidden_field :user_id, :value => current_user.id
+    .formLayout
+      .row
+        %label
+          Type *
+        .inputCnt
+          = f.select :type, options_for_select([ "Income", "Expenses"]) , :prompt => "select Type "
+      .row
+        %label
+          Source *
+        .inputCnt
+          = f.select :source, options_for_select(Category::income) , :prompt => "select source "
+      .row
+        %label
+          Date *
+        .inputCnt
+          = f.text_field :entry_date, :class => "datepicker"
+      .row
+        %label
+          Discription
+        .inputCnt
+          = f.text_area :description, :cols => "30", :rows => "5"
+      .row
+        %label
+          Amount *
+        .inputCnt
+          = f.text_field  :amount
+        .fieldInfo
+      %br
+      .row
+        .submitBtn 
+          = f.submit "Submit"
+
+:javascript
+  $('.datepicker').datepicker({
+    format: 'mm/dd/yyyy',
+    startDate: '-3d'
+  });
+
+  $("#category_type").change(function(){
+    var url = '/get_drop_down_options?category_type=' + $(this).val() 
+    $.get(url, function(data) {
+      $("#category_source").html('');
+      $("#category_source").html(data);
+    });
+  });

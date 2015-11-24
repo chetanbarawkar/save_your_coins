@@ -1,0 +1,60 @@
+.inner.sectionCntType
+  = form_tag categories_path, :method => :get do
+    .clumn
+      %label Category
+      .inpuCnt.material_select
+        - if params[:q] == "income"
+          = hidden_field_tag :q, "income"
+          = select_tag :source_field, options_for_select(Category::income) ,:prompt =>"Please Select"
+        - else
+          = hidden_field_tag :q, "expenses"
+          = select_tag :source_field, options_for_select(Category::expenses) ,:prompt =>"Please Select"
+      .clumn
+        %label
+          Start Date
+        = text_field_tag :start_date, params[:start_date], :placeholder=>"mm/dd/yyyy"
+      .clumn
+        %label End Date
+        = text_field_tag :end_date, params[:end_date], :placeholder=>"mm/dd/yyyy"
+    .clear
+    .clumn{:style=>'margin-top:15px'}
+      = submit_tag "Search",:class=>'newserchAdmb'
+    .clear
+  = form_tag "/categories.xls", :method => :get, :class => 'order_text2' do
+    = hidden_field_tag :q, params[:q], :class=>"txnid"
+    = hidden_field_tag :source, params[:source_field], :class=>"name"
+    = hidden_field_tag :start_date, params[:start_date], :class=>"start"
+    = hidden_field_tag :end_date, params[:end_date], :class=>"end"
+    = submit_tag "Excel Report Searchwise",:class=>'newserchAdmb'
+  #tablewrapper
+    %section
+      %table#table.tinytable{:width => "800"}
+        %thead
+          %tr
+            %th.nosort
+              %h3 Category
+            %th.nosort
+              %h3 Date
+            %th.nosort
+              %h3 Amount
+            %th.nosort
+              %h3 Description  
+        %tbody
+          - @categories.each do |c|
+            %tr
+              %td.text2
+                = c.source 
+              %td.text2
+                = c.entry_date.strftime("%d %B %Y")
+              %td.text2
+                = c.amount
+              %td.text2
+                = c.description
+              %td.text2
+                = link_to '<i class="fa fa-pencil"></i><span>Edit</span>'.html_safe, edit_category_path(c), :class=>'newEditAmnlnk'
+              %td.text2
+                = link_to "Destroy", c, :confirm => "Are you sure?", :method => :delete
+  .showTotalAmt
+    %br
+    .marginRgtamt
+      Total #{@categories.sum :amount}
